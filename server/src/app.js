@@ -2,6 +2,7 @@ const express = require('express')
 const morgan = require('morgan')
 const app = express();
 const bodyParser = require('body-parser');
+const createError = require('http-errors');
 
 app.use(morgan("dev"));
 app.use(express.json());
@@ -19,13 +20,17 @@ app.get("/products",(req,res) => {
 })
 //client error hadling
 app.use((req,res,next)=>{
-    res.status(404).json({message:"route not found"})
-    next()
+    
+    next(createError(404, "route not found"));
 })
 
+//server error 
 app.use((err,req,res,next)=>{
-    res.status(500).json({message:"Internal server error"})
+    return res.status(err.status || 500).json({
+        success : false,
+        message : err.message
+    });
  
-})
+});
 
 module.exports = app;
