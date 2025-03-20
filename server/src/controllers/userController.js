@@ -1,14 +1,17 @@
-const users = [
-    {id: "1", name: "John Doe"},
-    {id: "2", name: "Jane Doe"},
-    {id: "3", name: "Mike Doe"}
-];
+const createError = require('http-errors');
+const { users } = require('../models/userModel');
 
-const getUsers=((req, res) => {
-    res.status(200).json({
-        message: "User list is returned from controller",
-        users : users
-    });
+
+const getUsers=((req, res, next) => {
+    try{
+        res.status(200).json({
+            message: "User list is returned from models",
+            users : users
+        });
+    }
+    catch(err){
+        next(err);
+    }
 }); 
 
 
