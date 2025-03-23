@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose')
 const bcrypt = require('bcrypt');  
 
-const {defaultUserImagePath} = require('../../public/images/users/defaultUser.png');
+const defaultUserImagePath = '../../public/images/users/defaultUser.png';
 const userSchema = new Schema({
     name: {
         type: String,

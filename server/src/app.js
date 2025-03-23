@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const xssClean = require('xss-clean');
 const rateLimit = require('express-rate-limit');
 const userRouter = require('./routers/userRouter');
+const { seedRouter } = require('./routers/seedRouter');
 
 const app = express();
 
@@ -20,7 +21,8 @@ app.use(rateLimiter);
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended : true}));
 
-app.use('/api/user',userRouter)
+app.use('/api/user',userRouter);
+app.use('/api/seed', seedRouter);
 
 app.get('/test', rateLimiter,function(req, res){
     res.status(200).send({message : 'Welcome to the server'})
