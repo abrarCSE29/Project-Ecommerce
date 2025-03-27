@@ -47,7 +47,31 @@ const getUsers= async (req, res, next) => {
     catch(err){
         next(err);
     }
-}; 
+};
 
+//get user by id
 
-module.exports = { getUsers };
+const getUser= async (req, res, next) => {
+    try{
+        const id = req.params.id;
+        const option = {password:0};
+        
+        const user = await User.findById(id, option);
+
+        if(!user) {
+            throw createError(404,"user  not found with this id");
+        }
+        return successResponse(res,{
+            statusCode : 200,
+            message: "User list is returned from models",
+            payload : {
+                user: user
+            }
+        })
+    }
+    catch(err){
+        next(err);
+    }
+};
+
+module.exports = { getUsers, getUser };
