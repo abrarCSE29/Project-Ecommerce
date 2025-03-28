@@ -2,7 +2,7 @@ const createError = require('http-errors');
 const User = require('../models/userModel');
 const { successResponse, errorResponse } = require('./responseController');
 const { default: mongoose } = require('mongoose');
-const { findUserById } = require('../services/findUserById');
+const { findWithId } = require('../services/findWithId');
 
 const getUsers= async (req, res, next) => {
     try{
@@ -55,7 +55,7 @@ const getUsers= async (req, res, next) => {
 
 const getUser= async (req, res, next) => {
     const id = req.params.id;
-    const user = await findUserById(id);
+    const user = await findWithId(id);
     return successResponse(res, {
       statusCode: 200,
       message: "User list is returned from models",
