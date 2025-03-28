@@ -1,16 +1,15 @@
 const { default: mongoose } = require("mongoose");
-const User = require("../models/userModel");
 const createError = require("http-errors");
-const findWithId = async (id, options={}) => {
+const findWithId = async (Model,id, options={}) => {
   try {
-    const item = await User.findById(id, options);
+    const item = await Model.findById(id, options);
     if (!item) {
-      throw createError(404, "item  not found with this id");
+        throw createError(404, `${Model.modelName}  not found with this id`);
     }
     return item;
   } catch (err) {
     if (err instanceof mongoose.Error) {
-      throw createError(400, "invalid item id");
+      throw createError(400, `invalid ${Model.modelName}  id`);
     }
     throw err;
   }

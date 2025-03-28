@@ -53,10 +53,10 @@ const getUsers = async (req, res, next) => {
 
 //get user by id
 
-const getUser = async (req, res, next) => {
+const getUserById = async (req, res, next) => {
   const id = req.params.id;
   const options = { password: 0 };
-  const user = await findWithId(id, options);
+  const user = await findWithId(User,id, options);
   return successResponse(res, {
     statusCode: 200,
     message: "User list is returned from models",
@@ -66,10 +66,10 @@ const getUser = async (req, res, next) => {
   });
 };
 
-const deleteUser = async (req, res, next) => {
+const deleteUserById = async (req, res, next) => {
   const id = req.params.id;
   const options = { password: 0 };
-  const user = await findWithId(id, options);
+  const user = await findWithId(User,id, options);
 
   
   const userImagePath = user.image;
@@ -99,4 +99,4 @@ const deleteUser = async (req, res, next) => {
   });
 };
 
-module.exports = { getUsers, getUser, deleteUser };
+module.exports = { getUsers, getUserById, deleteUserById };

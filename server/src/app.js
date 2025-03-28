@@ -6,7 +6,7 @@ const rateLimit = require("express-rate-limit");
 const userRouter = require("./routers/userRouter");
 const { seedRouter } = require("./routers/seedRouter");
 const { errorResponse } = require("./controllers/responseController");
-
+const createError = require("http-errors");
 const app = express();
 
 //middleware
@@ -46,12 +46,5 @@ app.use((err, req, res, next) => {
     message: err.message,
   });
 });
-
-app.use((err, req, res, next) => {
-    return errorResponse(res, {
-      statusCode: err.status,
-      message: err.message,
-    });
-  });
 
 module.exports = app;
