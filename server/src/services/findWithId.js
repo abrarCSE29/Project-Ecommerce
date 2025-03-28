@@ -3,7 +3,7 @@ const User = require("../models/userModel");
 const createError = require("http-errors");
 const findWithId = async (id, options={}) => {
   try {
-    const item = await User.findById(id, option);
+    const item = await User.findById(id, options);
     if (!item) {
       throw createError(404, "item  not found with this id");
     }
