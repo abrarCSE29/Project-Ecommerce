@@ -88,4 +88,38 @@ const deleteUserById = async (req, res, next) => {
   });
 };
 
-module.exports = { getUsers, getUserById, deleteUserById };
+const processRegister = async(req, res) => {
+  try{
+    const { name, email, phone, password } = req.body;
+
+    const userExists = await User.exists({email: email });
+    if (userExists) {
+      return errorResponse(res, {
+        statusCode: 409,
+        message: "User already exists with this email. Please log in",
+      });
+    }
+    const user = {
+      name,
+      email,
+      phone,
+      password,
+    };
+
+    return successResponse(res, {
+      statusCode: 201,
+      message: "User was created",
+      payload: {
+        user: user,
+      },
+    });
+  }catch(err){
+    console.log(err);
+    return errorResponse(res, {
+      statusCode: 500,
+      message: "Internal server error",
+    });
+  }
+}
+
+module.exports = { getUsers, getUserById, deleteUserById,processRegister };
