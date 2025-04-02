@@ -1,9 +1,10 @@
 const createError = require("http-errors");
-const fs = require("fs");
+const fs = require("fs").promises;
 const User = require("../models/userModel");
 const { successResponse, errorResponse } = require("./responseController");
 const { default: mongoose } = require("mongoose");
 const { findWithId } = require("../services/findWithId");
+const { deleteImage } = require("../helper/deleteUser");
 
 const getUsers = async (req, res, next) => {
   try {
@@ -73,20 +74,8 @@ const deleteUserById = async (req, res, next) => {
 
   
   const userImagePath = user.image;
-  fs.access(userImagePath, fs.constants.F_OK, (err) => {
-    if (err) {
-      console.log("user image path does not exist");
-    } else {
-      fs.unlink(userImagePath, (err) => {
-        if (err) {
-          throw err;
-          console.log("Error deleting file:", err);
-        } else {
-          console.log("File deleted successfully");
-        }
-      });
-    }
-  });
+
+  deleteImage(userImagePath);
 
   await User.findByIdAndDelete({_id:id,isAdmin:false});
 
